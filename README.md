@@ -1,4 +1,4 @@
-# Intrusive-Detection
+# IntrusionDetection
 
 BJTU Course Project "Principle and practice of artificial intelligence algorithm"
 

@@ -15,7 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-train_file = pd.read_csv('rdata\train_data_10_percent_corrected_classify.csv')  # 读取已处理的训练集文件
+train_file = pd.read_csv(r'data\train_data_10_percent_corrected_classify.csv')  # 读取已处理的训练集文件
 print("训练集维度：", train_file.shape)
 col_num = train_file.shape[1]
 train_file.columns = [i+1 for i in range(col_num)]  # 命名训练集文件的每列名称

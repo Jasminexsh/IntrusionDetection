@@ -12,4 +12,4 @@ pip install pandas
 pip install matplotlib
 pip install sklearn
 ``` 
-then run ###classification.py and ###multiclassificaiton.py
+then run **classification.py** and **multiclassificaiton.py**

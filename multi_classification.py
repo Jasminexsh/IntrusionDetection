@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-# from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 
 train_file = pd.read_csv(r'data\train_data_10_percent_corrected_multi_classify.csv')  # 读取已处理的训练集文件
@@ -43,10 +43,6 @@ x_train = vec.fit_transform(x_train.to_dict(orient='record'))
 x_test = vec.transform(x_test.to_dict(orient='record'))
 print(vec.feature_names_, "\n", x_train[:-1])
 
-"""dtc = DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None, max_features=None,
-                             max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None,
-                             min_samples_leaf=1, min_samples_split=2, min_weight_fraction_leaf=0.0, presort=False,
-                             random_state=None, splitter='best')"""
 
 # 建立空列表，将每次的精确度存入列表中，便于求解多次的平均值。
 dtc_accuracy_score = []
@@ -90,19 +86,21 @@ for i in range(3):
     # print("逻辑回归分类精确度：", accuracy_score(y_test, lgr_y_pre))
     print("逻辑回归：", "\n", classification_report(lgr_y_pre, y_test, target_names=["normal", "smurf", "others"]))
 
+    # 运行速度较慢 不推荐
+    # 梯度提升决策树
+    gbc = GradientBoostingClassifier(random_state=10, subsample=0.8)
+    gbc = gbc.fit(x_train, np.array(y_train).ravel())
+    gbc_y_pre = gbc.predict(x_test)
+    print("梯度提升决策树精确度：", accuracy_score(y_test, gbc_y_pre))
+    print("梯度提升决策树：", "\n", classification_report(gbc_y_pre, y_test, target_names=["normal", "smurf", "others"]))
+
+
 # 3次迭代后，不同分类器模型的平均精确度指标值。
 print("决策树分类精确度：", mean(dtc_accuracy_score))
 print("朴素贝叶斯分类精确度：", mean(nbc_accuracy_score))
 print("随机森林分类精确度：", mean(rfc_accuracy_score))
 print("逻辑回归分类精确度：", mean(nbc_accuracy_score))
 
-# 运行速度较慢 不推荐
-"""# 梯度提升决策树
-    gbc = GradientBoostingClassifier(random_state=10, subsample=0.8)
-    gbc = gbc.fit(x_train, np.array(y_train).ravel())
-    gbc_y_pre = gbc.predict(x_test)
-    print("梯度提升决策树精确度：", accuracy_score(y_test, gbc_y_pre))
-    print("梯度提升决策树：", "\n", classification_report(gbc_y_pre, y_test, target_names=["normal", "smurf", "others"]))"""
 
 
 

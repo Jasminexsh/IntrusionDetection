@@ -21,7 +21,6 @@ col_num = train_file.shape[1]
 train_file.columns = [i+1 for i in range(col_num)]  # 命名训练集文件的每列名称
 
 feature_num = 41
-# x = kdd99[[i+1 for i in range(col_num-1)]]  # 切分训练集的41列特征
 x = train_file[[i+1 for i in range(feature_num)]]
 y = train_file[[col_num]]  # 训练集最后一列
 
@@ -58,7 +57,7 @@ lgr_auc = []
 for i in range(3):
     print('第' + str(i + 1) + '次实验：')
 
-    # 决策树分类器
+    # 决策树
     dtc = DecisionTreeClassifier()
     dtc = dtc.fit(x_train, y_train)
     dtc_y_pre = dtc.predict(x_test)
@@ -75,11 +74,10 @@ for i in range(3):
     dtc_accuracy_score.append(accuracy_score(y_test, dtc_y_pre))
     dtc_auc.append(auc)
 
-    # print("决策树分类精确度：", accuracy_score(y_pre, y_test))
     print("决策树：", "\n", classification_report(dtc_y_pre, y_test, target_names=["normal", "abnormal"]))
     print("决策树AUC：", roc_auc_score(y_test, dtc_y_pre))
 
-    # 朴素贝叶斯分类器
+    # 朴素贝叶斯
     nbc = GaussianNB()
     nbc = nbc.fit(x_train, y)
     nbc_y_pre = nbc.predict(x_test)
@@ -96,7 +94,6 @@ for i in range(3):
     nbc_accuracy_score.append(accuracy_score(y_test, nbc_y_pre))
     nbc_auc.append(auc)
 
-    # print("朴素贝叶斯分类精确度：", accuracy_score(y_test, nbc_y_pre))
     print("朴素贝叶斯：", "\n", classification_report(nbc_y_pre, y_test, target_names=["normal", "abnormal"]))
     print("朴素贝叶斯AUC：", roc_auc_score(y_test, nbc_y_pre))
 
@@ -116,7 +113,6 @@ for i in range(3):
     rfc_accuracy_score.append(accuracy_score(y_test, rfc_y_pre))
     rfc_auc.append(auc)
 
-    # print("随机森林分类精确度：", accuracy_score(y_test, rfc_y_pre))
     print("随机森林：", "\n", classification_report(rfc_y_pre, y_test, target_names=["normal", "abnormal"]))
     print("随机森林AUC：", roc_auc_score(y_test, rfc_y_pre))
 
@@ -136,7 +132,6 @@ for i in range(3):
     lgr_accuracy_score.append(accuracy_score(y_test, lgr_y_pre))
     lgr_auc.append(auc)
 
-    # print("逻辑回归分类精确度：", accuracy_score(y_test, lgr_y_pre))
     print("逻辑回归：", "\n", classification_report(lgr_y_pre, y_test, target_names=["normal", "abnormal"]))
     print("逻辑回归AUC：", roc_auc_score(y_test, lgr_y_pre))
 
